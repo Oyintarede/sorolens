@@ -85,6 +85,8 @@ func New(h *handler.Handler) http.Handler {
 		r.With(scope, cacheContracts).Get("/contracts/{id}", h.GetContract)
 		get("/contracts/{id}/events", h.ListEvents)
 		get("/contracts/{id}/invocations", h.ListInvocations)
+		// Global invocation explorer: resource usage across every contract.
+		get("/invocations", h.ListAllInvocations)
 		get("/contracts/{id}/storage", h.ListStorageEntries)
 		get("/contracts/{id}/stats", h.ContractStats)
 		get("/contracts/{id}/forecast", h.ContractForecast)
@@ -127,6 +129,7 @@ func New(h *handler.Handler) http.Handler {
 		get("/watchdog/contracts/{id}", h.GetMonitoredContract)
 		get("/watchdog/contracts/{id}/health", h.ListHealthChecks)
 		get("/watchdog/contracts/{id}/alerts", h.ListWatchdogAlerts)
+		get("/watchdog/contracts/{id}/uptime", h.GetContractUptime)
 
 		// Alert notification subscriptions (issue #127). They hold
 		// integration secrets, so reading them also needs contributor.
